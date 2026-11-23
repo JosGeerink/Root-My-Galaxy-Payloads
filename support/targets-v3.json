@@ -1298,6 +1298,11 @@
     "size": 4882848,
     "version": "v3.2.5",
     "sha256": "9aab5d3c8037d433ba60bf91237b02069931fdbd97e4f08405c0aa573c4a0a1d"
+   },
+   "routePolicy": {
+    "slideRoute": "tracefs",
+    "prefersShellTransport": true,
+    "attempts": 2
    }
   }
  ]
