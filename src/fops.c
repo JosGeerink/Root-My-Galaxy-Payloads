@@ -335,7 +335,14 @@ int restore_slide_boot_id(int fd) {
 }
 
 int install_child_root(int fd) {
-  return install_pipe_physrw(fd) && install_android_root(fd);
+  if (!install_pipe_physrw(fd)) {
+    return 0;
+  }
+  if (payload_stage_limit("fops")) {
+    pr_success("stage-limit hit stage=fops (physrw ready) exiting cleanly\n");
+    _exit(0);
+  }
+  return install_android_root(fd);
 }
 
 int try_cfi_stage(void) {
