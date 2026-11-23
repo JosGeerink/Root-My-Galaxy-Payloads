@@ -2908,7 +2908,12 @@ int slide_leak_kernel_base(void) {
     if (force_tracefs) {
       return 0;
     }
+#if defined(SLIDE_TRACEFS_NO_P0_FALLBACK) && SLIDE_TRACEFS_NO_P0_FALLBACK
+    pr_error("slide tracefs failed; P0 fallback disabled for this target\n");
+    return 0;
+#else
     pr_warning("slide tracefs failed; falling back to physical P0\n");
+#endif
   }
   return slide_leak_physical_base();
 #else

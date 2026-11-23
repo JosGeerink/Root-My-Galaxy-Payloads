@@ -344,3 +344,8 @@
 #define SLIDE_RANDOM_TABLE_BOOT_ID_DATA_PTR_IMAGE \
   (KIMAGE_TEXT_BASE + SLIDE_RANDOM_TABLE_BOOT_ID_DATA_PTR_OFF)
 #define SLIDE_RANDOM_TABLE_BOOT_ID_DATA_PTR_OFF 0x202e400ULL
+
+/* S908B: run via Shizuku shell, so the tracefs KASLR route is available. */
+#define APP_TRACEFS_SLIDE 1
+/* A tracefs failure must end the run, not fall back to the P0 route this kernel panics in. */
+#define SLIDE_TRACEFS_NO_P0_FALLBACK 1
