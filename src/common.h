@@ -482,3 +482,5 @@ void start_p0_ref_keeper(void);
 int install_android_root(int fd);
 
 #endif
+
+int payload_stage_limit(const char *stage);

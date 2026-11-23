@@ -2192,6 +2192,11 @@ uintptr_t prepare_kernel_page(int payload_mode) {
   log_mm_slabinfo("after-leak");
 #endif
 
+  if (payload_stage_limit("leak")) {
+    pr_success("stage-limit hit stage=leak leaked=%016zx base=%016zx exiting cleanly\n",
+               leaked, leaked & ~(ORDER3_SIZE - 1));
+    _exit(0);
+  }
   uintptr_t base = leaked & ~(ORDER3_SIZE - 1);
 #if defined(APP_REQUIRE_FRESH_P0_SESSION) && APP_REQUIRE_FRESH_P0_SESSION
   size_t object_index = (leaked - base) / MM_STRUCT_SZ;
