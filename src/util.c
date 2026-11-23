@@ -2542,6 +2542,11 @@ uintptr_t prepare_kernel_page(int payload_mode) {
           base);
 #endif
 
+  if (payload_stage_limit("reclaim")) {
+    pr_success("stage-limit hit stage=reclaim base=%016zx exiting cleanly\n",
+               base);
+    _exit(0);
+  }
   return base;
 #endif
 }
