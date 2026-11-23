@@ -1302,7 +1302,7 @@
    "routePolicy": {
     "slideRoute": "tracefs",
     "prefersShellTransport": true,
-    "attempts": 2
+    "attempts": 1
    }
   }
  ]
