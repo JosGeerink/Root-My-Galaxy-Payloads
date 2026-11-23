@@ -2803,6 +2803,30 @@ int run_p0_pipe_oracle_diagnostic(int fd) {
 }
 #endif
 
+/* Stage gate for bisecting a crash: exits cleanly after the named stage when
+ * /data/local/tmp/rmg_stage_limit names it (or "all"). A clean exit is not a
+ * panic, so a run can be stopped before the step that would take the kernel
+ * down and still leave a readable log. */
+static int payload_stage_limit(const char *stage) {
+  int fd = open("/data/local/tmp/rmg_stage_limit", O_RDONLY | O_CLOEXEC);
+  if (fd < 0) {
+    return 0;
+  }
+  char text[32];
+  ssize_t got = read(fd, text, sizeof(text) - 1);
+  close(fd);
+  if (got <= 0) {
+    return 0;
+  }
+  text[got] = 0;
+  char *p = text;
+  while (*p == ' ' || *p == '\t' || *p == '\r' || *p == '\n') p++;
+  char *end = p;
+  while (*end && *end != ' ' && *end != '\t' && *end != '\r' && *end != '\n') end++;
+  *end = 0;
+  return strcmp(p, stage) == 0 || strcmp(p, "all") == 0;
+}
+
 static int slide_commit_stext(uint64_t stext, const char *source) {
   if (stext < KIMAGE_TEXT_BASE) {
     return 0;
@@ -2834,6 +2858,10 @@ static int slide_commit_stext(uint64_t stext, const char *source) {
              source, getpid(), (unsigned long long)kaslr_base,
              (unsigned long long)kaslr_slide,
              data_addr_canonical ? "canonical" : "physical-alias");
+  if (payload_stage_limit("slide")) {
+    pr_success("stage-limit hit stage=slide exiting cleanly\n");
+    _exit(0);
+  }
   return 1;
 }
 
