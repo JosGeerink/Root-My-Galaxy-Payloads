@@ -1,5 +1,7 @@
 #include "common.h"
 
+int payload_stage_limit(const char *stage);
+
 #if defined(APP_PHYS_P0_ORACLE) && APP_PHYS_P0_ORACLE
 #include P0_FINGERPRINT_HEADER
 #endif
@@ -1046,6 +1048,11 @@ int prepare_p0_pipe_oracle(void) {
   pipebuf_page_base = prepare_pipe_buffer_page();
   if (!is_direct_ptr(pipebuf_page_base)) {
     return 0;
+  }
+  if (payload_stage_limit("page")) {
+    pr_success("stage-limit hit stage=page base=%016zx exiting cleanly\n",
+               (size_t)pipebuf_page_base);
+    _exit(0);
   }
 
   unsigned char marker[PAGE_SIZE];

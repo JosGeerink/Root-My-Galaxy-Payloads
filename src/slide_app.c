@@ -2807,7 +2807,7 @@ int run_p0_pipe_oracle_diagnostic(int fd) {
  * /data/local/tmp/rmg_stage_limit names it (or "all"). A clean exit is not a
  * panic, so a run can be stopped before the step that would take the kernel
  * down and still leave a readable log. */
-static int payload_stage_limit(const char *stage) {
+int payload_stage_limit(const char *stage) {
   int fd = open("/data/local/tmp/rmg_stage_limit", O_RDONLY | O_CLOEXEC);
   if (fd < 0) {
     return 0;

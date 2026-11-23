@@ -1291,7 +1291,7 @@
    "exploit": {
     "url": "https://raw.githubusercontent.com/JosGeerink/Root-My-Galaxy-Payloads/main/artifacts/S908BXXUDFYD9/cve-2026-43499-app.so",
     "size": 104128,
-    "sha256": "3d837090a3841bef2bd68800f26f93d8d45fae28f061205ef987ff8b892284de"
+    "sha256": "70ca5e2e51bc26a922ef6836ad0bad27d9f53422d2b844de4cdba28535f3119b"
    },
    "kernelsu": {
     "url": "https://raw.githubusercontent.com/JosGeerink/Root-My-Galaxy-Payloads/main/kernelsu/ksud-S908BXXUDFYD9-kdp",
